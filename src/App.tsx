@@ -1,7 +1,6 @@
 import {useMemo, useState} from "react";
 import type {Echelon} from "./domain/types";
 import {generateDraw} from "./domain/generateDraw";
-import {formatForCopy} from "./domain/format";
 import {positionsStartLabel} from "./domain/labels";
 import {Section} from "./components/Section";
 import {ExerciseList} from "./components/ExerciseList";
@@ -41,9 +40,6 @@ function posLabelShort(p: "A" | "D" | "C") {
 export default function App() {
     const [echelon, setEchelon] = useState<Echelon>("III");
     const [draw, setDraw] = useState(() => generateDraw("III"));
-    const [copied, setCopied] = useState(false);
-
-    const copyText = useMemo(() => formatForCopy(draw), [draw]);
 
     function onDraw() {
         setDraw(generateDraw(echelon));
@@ -52,16 +48,6 @@ export default function App() {
     function onChangeEchelon(next: Echelon) {
         setEchelon(next);
         setDraw(generateDraw(next));
-    }
-
-    async function onCopy() {
-        try {
-            await navigator.clipboard.writeText(copyText);
-            setCopied(true);
-            window.setTimeout(() => setCopied(false), 1200);
-        } catch {
-            alert("Copie automatique impossible. Ouvre 'Texte à copier' et copie manuellement.");
-        }
     }
 
     return (
@@ -82,9 +68,6 @@ export default function App() {
 
                 <button className="btn primary" onClick={onDraw}>
                     Tirer au sort
-                </button>
-                <button className="btn" onClick={onCopy}>
-                    {copied ? "Copié ✅" : "Copier"}
                 </button>
             </div>
 
@@ -110,11 +93,6 @@ export default function App() {
                     <ExerciseList items={draw.mordant}/>
                 </Section>
             </div>
-
-            <details>
-                <summary>Texte à copier</summary>
-                <pre>{copyText}</pre>
-            </details>
         </div>
     );
 }
