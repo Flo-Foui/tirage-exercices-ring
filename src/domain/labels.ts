@@ -13,7 +13,7 @@ export const LABELS: Record<ExerciseKey, string> = {
   RAPPORT_LANCE: "Rapport d’objet lancé",
 
   INTER_FACE: "Interception de Face",
-  INTER_REVOLVER_GARDE_AU_FERME: "Interception avec revolver et Garde au Ferme",
+  INTER_GARDE_AU_FERME: "Interception avec revolver et Garde au Ferme",
   INTER_FUYANTE: "Interception fuyante",
   INTER_FACE_ARRETEE: "Interception de face Arrêtée",
 

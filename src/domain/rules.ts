@@ -114,7 +114,7 @@ export function mordantInterceptions(echelon: Echelon): ExerciseKey[] {
     switch (echelon) {
         case "I":
             return [
-                "INTER_REVOLVER_GARDE_AU_FERME",
+                "INTER_GARDE_AU_FERME",
                 "INTER_FUYANTE",
                 "INTER_FACE",
             ];
@@ -122,14 +122,14 @@ export function mordantInterceptions(echelon: Echelon): ExerciseKey[] {
         case "II":
             return [
                 "INTER_FACE",
-                "INTER_REVOLVER_GARDE_AU_FERME",
+                "INTER_GARDE_AU_FERME",
                 "INTER_FUYANTE",
             ];
 
         case "III":
             return [
                 "INTER_FACE",
-                "INTER_REVOLVER_GARDE_AU_FERME",
+                "INTER_GARDE_AU_FERME",
                 "INTER_FUYANTE",
                 "INTER_FACE_ARRETEE",
             ];
