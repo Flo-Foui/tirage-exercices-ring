@@ -1,12 +1,24 @@
-import type { ExerciseKey } from "../domain/types";
-import { LABELS } from "../domain/labels";
+import type {ExerciseKey} from "../domain/types";
+import {LABELS} from "../domain/labels";
 
-export function ExerciseList(props: { items: ExerciseKey[] }) {
-  return (
-    <ol>
-      {props.items.map((k, i) => (
-        <li key={`${k}-${i}`}>{LABELS[k]}</li>
-      ))}
-    </ol>
-  );
+type Props = {
+    items: ExerciseKey[];
+    getSuffix?: (key: ExerciseKey) => string | undefined;
+};
+
+export function ExerciseList({items, getSuffix}: Props) {
+    return (
+        <ol>
+            {items.map((k, i) => {
+                const suffix = getSuffix ? getSuffix(k) : undefined;
+
+                return (
+                    <li key={`${k}-${i}`}>
+                        {LABELS[k]}
+                        {suffix ? <span>{suffix}</span> : null}
+                    </li>
+                );
+            })}
+        </ol>
+    );
 }

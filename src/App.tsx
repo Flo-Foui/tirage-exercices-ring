@@ -1,7 +1,6 @@
-import {useMemo, useState} from "react";
+import {useState} from "react";
 import type {Echelon} from "./domain/types";
 import {generateDraw} from "./domain/generateDraw";
-import {positionsStartLabel} from "./domain/labels";
 import {Section} from "./components/Section";
 import {ExerciseList} from "./components/ExerciseList";
 
@@ -31,7 +30,7 @@ function EchelonSwitch(props: {
     );
 }
 
-function posLabelShort(p: "A" | "D" | "C") {
+function posShort(p: "A" | "D" | "C") {
     if (p === "A") return "A";
     if (p === "D") return "D";
     return "C";
@@ -50,13 +49,29 @@ export default function App() {
         setDraw(generateDraw(next));
     }
 
+    const obeissanceSuffix = (key: any) => {
+        if (key === "ABSENCE") {
+            return ` : ${draw.options.absenceHold}`;
+        }
+        if (key === "POSITIONS") {
+            const start = draw.options.positionsStart; // "A" | "D" | "C"
+            const seq = (draw.options as any).positionsSequence as Array<"A" | "D" | "C"> | undefined;
+
+            const startTxt = `départ ${start} → `;
+            const seqTxt = seq?.length ? `${seq.map(posShort).join(" - ")}` : "";
+
+            return ` : ${startTxt}${seqTxt}`;
+        }
+
+        return undefined;
+    };
+
     return (
         <div className="container">
             <div className="header">
                 <h1 style={{margin: 0}}>Tirage au sort des exercices</h1>
                 <p className="subtitle">
-                    Tirage différent à chaque clic. Les règles définissent un pattern alterné (dressage/objet,
-                    interceptions/dressages).
+                    Tirage différent à chaque clic. Les règles définissent un pattern alterné.
                 </p>
             </div>
 
@@ -72,21 +87,8 @@ export default function App() {
             </div>
 
             <div className="grid">
-                <Section
-                    title="Obéissance"
-                    footer={
-                        <div className="kv">
-                            <div>Positions</div>
-                            <div>
-                                {positionsStartLabel(draw.options.positionsStart)} —{" "}
-                                {draw.options.positionsSequence.map(posLabelShort).join(" → ")}
-                            </div>
-                            <div>Absence</div>
-                            <div>{draw.options.absenceHold}</div>
-                        </div>
-                    }
-                >
-                    <ExerciseList items={draw.obeissance}/>
+                <Section title="Obéissance">
+                    <ExerciseList items={draw.obeissance} getSuffix={obeissanceSuffix}/>
                 </Section>
 
                 <Section title="Mordant">
